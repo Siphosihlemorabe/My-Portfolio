@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Hangman!</title>
+</head>
+<body>
+ <h1>Hangman!</h1>
+ <script>
+ // Create an array of words
+ var words = [
+   "javascript",
+   "monkey",
+   "amazing",
+   "pancake"
+ ];
+ // Pick a random word
+ var word = words[Math.floor(Math.random() * words.length)];
+ var guessesAllowed = word.length * 2; // Update the number of guesses allowed
+ var remainingLetters = word.length;
+ var guessesMade = 0; // Track the number of guesses made
+ 
+ // Set up the answer array
+ var answerArray = [];
+ for (var i = 0; i < word.length; i++) {
+   answerArray[i] = "_";
+ }
+
+ // The game loop
+ while (remainingLetters > 0 && guessesMade < guessesAllowed) {
+   // Show the player their progress and remaining guesses
+   alert(answerArray.join(" ") + "\nGuesses left: " + (guessesAllowed - guessesMade));
+   
+   // Get a guess from the player
+   var guess = prompt("Guess a letter, or click Cancel to stop playing.");
+   
+   if (guess === null) {
+     // Exit the game loop
+     break;
+   } else if (guess.length !== 1) {
+     alert("Please enter a single letter.");
+   } else {
+     // Update the game state with the guess
+     var correctGuess = false;
+     for (var j = 0; j < word.length; j++) {
+       if (word[j] === guess && answerArray[j] === "_") {
+         answerArray[j] = guess;
+         remainingLetters--;
+         correctGuess = true;
+       }
+     }
+     
+     // Increment the number of guesses made only if it's an incorrect guess
+     if (!correctGuess) {
+       guessesMade++;
+     }
+   }
+ }
+ 
+ // Show the answer and congratulate the player or inform them about running out of guesses
+ if (remainingLetters === 0) {
+   alert("Congratulations! You guessed the word: " + word);
+ } else {
+   alert("Sorry, you ran out of guesses. The correct word was: " + word);
+ }
+ </script>
+</body>
+</html>
